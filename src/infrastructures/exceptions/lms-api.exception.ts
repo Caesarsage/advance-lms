@@ -1,6 +1,6 @@
 import { HttpStatus, HttpException } from "@nestjs/common";
-import { getResponseCode } from "../enums/error_code.enum";
-import { ErrorCode } from "../enums/index.enum";
+import { getResponseCode } from "../enums";
+import { ErrorCode } from "../enums";
 
 export class LmsApiException extends HttpException {
   public response_code: string;

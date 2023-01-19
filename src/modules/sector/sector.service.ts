@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSectorDto } from './dto/create-sector.dto';
-import { UpdateSectorDto } from './dto/update-sector.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AppSector } from 'src/infrastructures/enums/sector.enum';
+import { LmsFatalException } from 'src/infrastructures/exceptions';
+import { BaseRepository } from 'typeorm-transactional-cls-hooked';
+import { Sector } from './entities/sector.entity';
 
 @Injectable()
 export class SectorService {
-  create(createSectorDto: CreateSectorDto) {
-    return 'This action adds a new sector';
-  }
+  constructor(
+    @InjectRepository(Sector) private sectorRepo: BaseRepository<Sector>
+  ){}
 
-  findAll() {
-    return `This action returns all sector`;
-  }
+  findBySectorCode = async (sector: AppSector): Promise<Sector> => {
+    let app_sector;
+    if (!sector) {
+      app_sector = null
+    } else {
+      app_sector = await this.sectorRepo.findOne({
+        where: {
+          code: sector
+        }
+      })
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sector`;
-  }
+    if (!app_sector) {
+      throw new LmsFatalException()
+    }
 
-  update(id: number, updateSectorDto: UpdateSectorDto) {
-    return `This action updates a #${id} sector`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} sector`;
+    return app_sector
   }
 }

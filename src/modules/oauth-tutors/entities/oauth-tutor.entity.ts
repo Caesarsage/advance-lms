@@ -1,23 +1,24 @@
 import { User } from "src/modules/users/entities/user.emtity";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne, JoinTable, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { Sector } from "src/modules/sector/entities/sector.entity";
 import { BaseEntity } from "src/infrastructures/entities/base.entity";
 import { instanceToPlain } from "class-transformer";
+import { Role } from "src/modules/roles/entities/role.entity";
 
 @Entity({ name: 'oauth_tutors' })
 export class OAuthTutor extends BaseEntity {
-  @Column()
+  @Column({ unique: true, nullable: true })
   oauth_id: string;
 
   @Column({ unique: true })
   name: string;
 
   @JoinColumn({ name: 'sector_id', referencedColumnName: 'id' })
-  @ManyToOne(() => Sector, (sector) => sector.tutor, { nullable: false } )
+  @ManyToOne(() => Sector, (sector) => sector.tutors, { nullable: false } )
   sector_type: Sector;
 
-  @Column({ unique: true })
-  tutor_id: number;
+  @OneToMany(() => Role, (role) => role.tutor)
+  roles: Role[];
 
   @JoinTable({ 
     name: 'oauth_tutor_users',

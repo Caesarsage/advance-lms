@@ -1,74 +1,93 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+await queryRunner.query(
+      `CREATE TRIGGER oauth_tutors_BEFORE_INSERT BEFORE INSERT ON oauth_tutors FOR EACH ROW \n
+                  BEGIN\n
+                      IF new.oauth_id IS NULL THEN\n
+                          SET new.oauth_id = uuid(); \n
+                      END IF; \n
+                  END;
+              `,
+    );
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+    await queryRunner.query(
+      `INSERT INTO \`sector\` VALUES
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'LMS_SUPER ADMINISTRATOR', 'LMS_Super Administrator'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'TUTOR ADMINISTRATOR', 'Tutor Administrator'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'STUDENT' , 'Student');`,
+    );
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+    await queryRunner.query(
+      `INSERT INTO \`oauth_tutors\` VALUES
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP,'SYSTEM', CURRENT_TIMESTAMP,'c698455d-20fe-413e-bedb-5fb383da549b', 'LMS Backoffice Web App', '1' ),
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP,'SYSTEM', CURRENT_TIMESTAMP,'af252eb0b0d24c61b2d7ec82b17ce12a', 'LMS Tutor Web App',  '2' ),
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP,'SYSTEM', CURRENT_TIMESTAMP,'ecbc9048401d48a79b7ad280de0ee339', 'LMS Student Web App', '3' );
+              `,
+    );
 
-## Description
+    await queryRunner.query(
+      `INSERT INTO \`roles\` VALUES
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'Super Administrator', 'Full Access', '1', '1'),
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'Tutor Administrator', 'Tutor Access', '0', '2'),
+                (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'Student', 'Student', '0', '3');
+              `,
+    );
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    await queryRunner.query(
+      `INSERT INTO \`authorities\` VALUES
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Update Students', 'UPDATE_STUDENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Add Students', 'ADD_STUDENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Add Tutors', 'ADD_TUTORS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'View Tutors', 'VIEW_TUTORS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Update Tutors','UPDATE_TUTORS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Add Roles', 'ADD_ROLES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'View Roles', 'VIEW_ROLES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Update Roles', 'UPDATE_ROLES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Add Courses', 'ADD_COURSES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'View Courses', 'VIEW_COURSES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Update Courses', 'UPDATE_COURSES'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Add Assessments', 'ADD_ASSESSMENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'View Assessments', 'VIEW_ASSESSMENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'Update Assessments','UPDATE_ASSESSMENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Add Enrollments', 'ADD_ENROLLMENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '0', 'View Enrollments', 'VIEW_ENROLLMENTS'),
+              (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', 'Update Enrollments', 'UPDATE_ENROLLMENTS')`,
+    );
 
-## Installation
+    await queryRunner.query(
+      `INSERT INTO \`role_authorities\` VALUES
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '1'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '2'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '3'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '4'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '5'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '6'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '7'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '8'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '9'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '10'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '11'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '12'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '13'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '14'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '15'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '16'),
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '17')`,
+    );
 
-```bash
-$ npm install
-```
+    await queryRunner.query(
+      `INSERT INTO \`users\`
+            (\`status\`, \`created_by\`, \`created_on\`, \`last_modified_by\`, \`last_modified_on\`, \`email\`, \`is_email_verified\`, \`username\`, \`first_name\`,
+            \`last_name\`, \`password_hash\`, \`two_factor_enabled\`, \`is_primary\`, \`failed_login_attempts\`, \`sector_id\`)
+            VALUES ('ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, 'destinyerhabor6@gmail.com', '1', 'destinyerhabor6@gmail.com', 'Caesarsage', 'Administrator', 
+            '${await utils.hashString('changeme')}',
+            '0', '1', '0', '1')`,
+    );
 
-## Running the app
+    await queryRunner.query(
+      `INSERT INTO \`user_roles\` VALUES
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '1')`,
+    );
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
-# advance-lms
+    await queryRunner.query(
+      `INSERT INTO \`oauth_tutor_users\` VALUES
+            (NULL, 'ACTIVE', 'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP, '1', '1')`,
+    );
