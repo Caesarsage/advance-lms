@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/infrastructures/entities/base.entity";
 import { OAuthTutor } from "src/modules/oauth-tutors/entities/oauth-tutor.entity";
-import { User } from "src/modules/users/entities/user.emtity";
+import { User } from "src/modules/users/entities/user.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('sector')

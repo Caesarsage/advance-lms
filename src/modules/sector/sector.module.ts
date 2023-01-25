@@ -7,7 +7,7 @@ import { Sector } from './entities/sector.entity';
   imports: [
     TypeOrmModule.forFeature([Sector])
   ],
-  controllers: [],
-  providers: [SectorService]
+  providers: [SectorService],
+  exports: [SectorService]
 })
 export class SectorModule {}

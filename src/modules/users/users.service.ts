@@ -4,7 +4,7 @@ import { AppSector } from 'src/infrastructures/enums/sector.enum';
 import { LmsGhostException } from 'src/infrastructures/exceptions';
 import { Repository } from 'typeorm';
 import { BaseRepository } from 'typeorm-transactional-cls-hooked';
-import { User } from './entities/user.emtity';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {

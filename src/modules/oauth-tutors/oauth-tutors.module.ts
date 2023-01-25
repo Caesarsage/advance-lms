@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { OauthTutorsService } from './oauth-tutors.service';
-import { OauthTutorsController } from './oauth-tutors.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OAuthTutor } from './entities/oauth-tutor.entity';
+import { SectorModule } from '../sector/sector.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([OAuthTutor])
+    TypeOrmModule.forFeature([OAuthTutor]),
+    SectorModule
   ],
-  controllers: [OauthTutorsController],
-  providers: [OauthTutorsService]
+  providers: [OauthTutorsService],
+  exports: [OauthTutorsService]
 })
 export class OauthTutorsModule {}

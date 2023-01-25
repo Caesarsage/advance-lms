@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+
 import { ErrorCode } from "src/infrastructures/enums";
 import { EntityStatus } from "src/infrastructures/enums/statatus.enum";
 import { LmsAccessException, LmsAuthException, LmsGhostException } from "src/infrastructures/exceptions";
@@ -7,35 +8,48 @@ import { OAuthTutor } from "../oauth-tutors/entities/oauth-tutor.entity";
 import { OauthTutorsService } from "../oauth-tutors/oauth-tutors.service";
 import { RolePermission } from "../roles/entities/role-permission.entity";
 import { Role } from "../roles/entities/role.entity";
-import { User } from "../users/entities/user.emtity";
+import { User } from "../users/entities/user.entity";
 import { UsersService } from "../users/users.service";
 import { LoginDto } from "./dto/login.dto";
 import { v4 as uuid } from 'uuid';
 import { AppSector } from "src/infrastructures/enums/sector.enum";
 import * as utils from '../../infrastructures/utils';
-import { use } from "passport";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly jwtService: JwtService,
-    private readonly userService: UsersService,
-    private readonly oauthTutorService: OauthTutorsService
+    private oauthTutorService: OauthTutorsService,
+    private userService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
   getAccessToken = async (
     basic_auth: string,
     login_dto: LoginDto
   ) =>{
-    const oauth_tutor = await this.
+    const oauth_tutor = await this.validateOAuthTutor(basic_auth);
+
+    switch (login_dto.grant_type) {
+      case 'client_credentials':
+        return await this.generateAccessToken(oauth_tutor)
+    }
   }
 
   validateOAuthTutor = async (basic_auth: string): Promise<OAuthTutor> => {
     const [tutor_id, client_secret] = this.extractTutorCredentials(basic_auth);
-    // const oAuthTutor = await this.
-  }
+    const oAuthTutor = await this.oauthTutorService.findByOAuthId(tutor_id);
+    if (oAuthTutor) {
+      if (oAuthTutor.status !== EntityStatus.ACTIVE) {
+        throw LmsAccessException.of(ErrorCode.UNAUTHORIZED_CLIENT)
+      } else if (
+        await utils.compareHash(client_secret, oAuthTutor.hashed_oauth_secret)
+      ) {
+        return oAuthTutor;
+      }
+    }
 
-  validateOAuthTutorUser = async () => {}
+    throw LmsAuthException.of(ErrorCode.INVALID_CLIENT)
+  }
 
   validateUser = async (
     oAuthTutor: OAuthTutor,
@@ -204,7 +218,7 @@ export class AuthService {
       throw new LmsAuthException()
     }
     return Buffer.from(credentials, 'base64')
-      .toString()
+      .toString('ascii')
       .split(':');
   }
 

@@ -1,6 +1,6 @@
 import { instanceToPlain } from "class-transformer";
 import { BaseEntity } from "src/infrastructures/entities/base.entity";
-import { User } from "src/modules/users/entities/user.emtity";
+import { User } from "src/modules/users/entities/user.entity";
 import { Entity, Column, JoinColumn, OneToOne } from "typeorm";
 
 @Entity({ name: 'students' })

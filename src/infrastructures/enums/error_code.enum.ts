@@ -1,6 +1,7 @@
 
 export enum ErrorCode {
   SERVER_ERROR = 'An error occurred on the server',
+  INVALID_CLIENT = 'Invalid client credentials.',
   BAD_REQUEST = 'The request could not be completed due to malformed syntax. Kindly crosscheck and try again.',
   UNAUTHORIZED_REQUEST = 'The request could not be completed because it lacks valid authentication credentials.',
   UNAUTHORIZED_CLIENT = 'Client does not have sufficient rights to access this service.',

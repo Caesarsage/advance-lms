@@ -1,8 +1,8 @@
-import { User } from "src/modules/users/entities/user.emtity";
+import { User } from "src/modules/users/entities/user.entity";
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { Sector } from "src/modules/sector/entities/sector.entity";
 import { BaseEntity } from "src/infrastructures/entities/base.entity";
-import { instanceToPlain } from "class-transformer";
+import { Exclude, instanceToPlain } from "class-transformer";
 import { Role } from "src/modules/roles/entities/role.entity";
 
 @Entity({ name: 'oauth_tutors' })
@@ -12,6 +12,15 @@ export class OAuthTutor extends BaseEntity {
 
   @Column({ unique: true })
   name: string;
+
+  @Column({ type: 'text' })
+  @Exclude({ toPlainOnly: true })
+  encrypted_oauth_secret: string;
+
+  @Column()
+  @Exclude({ toPlainOnly: true })
+  hashed_oauth_secret: string;
+
 
   @JoinColumn({ name: 'sector_id', referencedColumnName: 'id' })
   @ManyToOne(() => Sector, (sector) => sector.tutors, { nullable: false } )

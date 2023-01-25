@@ -1,11 +1,14 @@
 import { applyDecorators, UseGuards } from "@nestjs/common";
+import { AppSector } from "../enums/sector.enum";
+import { JwtAuthGuard, UserOnlyGuard } from "../guards";
 import { AppSectorGuard } from "../guards/app-sector.guard";
+import { BasicAuthGuard } from "../guards/basic-auth.guard";
 
 
 interface SecureConfig {
   basicAuth?: boolean | undefined;
   userOnly?: boolean | undefined;
-  sector?: boolean | undefined;
+  sector?: AppSector | undefined;
 }
 export const Secured = (
   config: SecureConfig = {
