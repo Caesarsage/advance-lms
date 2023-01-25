@@ -22,6 +22,11 @@ export enum ErrorCode {
   CANNOT_UPDATE_PRIVILEGED_USER = 'Primary users cannot be updated. Please contact administrator',
   INACTIVE_ROLE_SPECIFIED = 'The specified role has been disabled',
   SERVICE_UNAVAILABLE = 'The service is currently unavailable. Please try again later.',
+  INVALID_TOKEN = 'Invalid token',
+  USER_INACTIVE = 'Account deactivated, contact support',
+  USER_EMAIL_NOT_CONFIRMED = 'User email not confirmed',
+  INVALID_USER_CREDENTIALS = 'Invalid username or password.',
+
 }
 
 export const getResponseCode = (response: ErrorCode) => {
