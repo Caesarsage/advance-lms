@@ -1,6 +1,6 @@
 import { Exclude, instanceToPlain } from 'class-transformer';
 import { BaseEntity } from 'src/infrastructures/entities/base.entity';
-import { EntityStatus } from 'src/infrastructures/enums/statatus.enum';
+import { EntityStatus } from 'src/infrastructures/enums/status.enum';
 import { OAuthTutor } from 'src/modules/oauth-tutors/entities/oauth-tutor.entity';
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { Sector } from 'src/modules/sector/entities/sector.entity';

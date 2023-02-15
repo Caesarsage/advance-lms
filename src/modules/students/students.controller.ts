@@ -1,15 +1,27 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { StudentsService } from './students.service';
-import { CreateStudentDto } from './dto/create-student.dto';
+import { AddStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { Secured } from 'src/infrastructures/decorators/secured.decorator';
+import { Authorization } from 'src/infrastructures/decorators/authorization.decorator';
 
 @Controller('students')
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
-  @Post()
-  create(@Body() createStudentDto: CreateStudentDto) {
-    return this.studentsService.create(createStudentDto);
+  @Post('onboard')
+  @Secured({
+    basicAuth: true
+  })
+  addStudent(
+    @Authorization() authorization: any,
+    @Body() student_dto: AddStudentDto
+  ) {
+    return this.studentsService.addStudent(
+      authorization,
+      student_dto,
+      true,
+    );
   }
 
   @Get()

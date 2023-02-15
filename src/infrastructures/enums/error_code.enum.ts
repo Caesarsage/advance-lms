@@ -27,6 +27,9 @@ export enum ErrorCode {
   USER_INACTIVE = 'Account deactivated, contact support',
   USER_EMAIL_NOT_CONFIRMED = 'User email not confirmed',
   INVALID_USER_CREDENTIALS = 'Invalid username or password.',
+  MUST_AGREE_TO_TERMS = 'Must agree to Terms of Service',
+
+  TRANSACTION_ROLLBACK = 'Transaction rolled back',
 
 }
 

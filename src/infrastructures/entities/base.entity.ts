@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EntityStatus } from '../enums/statatus.enum';
+import { EntityStatus } from '../enums/status.enum';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })

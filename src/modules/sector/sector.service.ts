@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppSector } from 'src/infrastructures/enums/sector.enum';
 import { LmsFatalException } from 'src/infrastructures/exceptions';
-import { BaseRepository } from 'typeorm-transactional-cls-hooked';
+import { Repository } from 'typeorm';
 import { Sector } from './entities/sector.entity';
 
 @Injectable()
 export class SectorService {
   constructor(
-    @InjectRepository(Sector) private sectorRepo: BaseRepository<Sector>
+    @InjectRepository(Sector) private sectorRepo: Repository<Sector>
   ){}
 
   findBySectorCode = async (sector: AppSector): Promise<Sector> => {

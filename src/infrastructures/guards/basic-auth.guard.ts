@@ -7,10 +7,12 @@ export class BasicAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const oauth_tutor = await this.authService.validateOAuthTutor(
+    console.log(request.headers.authorization);
+    const oauth_tutor = await this.authService.validateOAuthClient(
       request?.headers?.authorization
     );
 
+    console.log(oauth_tutor);
     request.user = {...oauth_tutor, principal: oauth_tutor.oauth_id};
     return true;
   }

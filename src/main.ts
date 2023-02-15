@@ -8,7 +8,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { initializeTransactionalContext } from 'typeorm-transactional-cls-hooked';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

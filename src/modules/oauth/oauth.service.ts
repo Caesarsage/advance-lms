@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
 import { ErrorCode } from "src/infrastructures/enums";
-import { EntityStatus } from "src/infrastructures/enums/statatus.enum";
+import { EntityStatus } from "src/infrastructures/enums/status.enum";
 import { LmsAccessException, LmsAuthException, LmsGhostException } from "src/infrastructures/exceptions";
 import { OAuthTutor } from "../oauth-tutors/entities/oauth-tutor.entity";
 import { OauthTutorsService } from "../oauth-tutors/oauth-tutors.service";
@@ -27,7 +27,7 @@ export class AuthService {
     basic_auth: string,
     login_dto: LoginDto
   ) =>{
-    const oauth_tutor = await this.validateOAuthTutor(basic_auth);
+    const oauth_tutor = await this.validateOAuthClient(basic_auth);
 
     switch (login_dto.grant_type) {
       case 'client_credentials':
@@ -35,16 +35,17 @@ export class AuthService {
     }
   }
 
-  validateOAuthTutor = async (basic_auth: string): Promise<OAuthTutor> => {
-    const [tutor_id, client_secret] = this.extractTutorCredentials(basic_auth);
-    const oAuthTutor = await this.oauthTutorService.findByOAuthId(tutor_id);
-    if (oAuthTutor) {
-      if (oAuthTutor.status !== EntityStatus.ACTIVE) {
+  validateOAuthClient = async (basic_auth: string): Promise<OAuthTutor> => {
+    const [oauth_id, client_secret] = this.extractTutorCredentials(basic_auth);
+    const oAuthClient = await this.oauthTutorService.findByOAuthId(oauth_id);
+  
+    if (oAuthClient) {
+      if (oAuthClient.status !== EntityStatus.ACTIVE) {
         throw LmsAccessException.of(ErrorCode.UNAUTHORIZED_CLIENT)
       } else if (
-        await utils.compareHash(client_secret, oAuthTutor.hashed_oauth_secret)
+        await utils.compareHash(client_secret, oAuthClient.hashed_oauth_secret)
       ) {
-        return oAuthTutor;
+        return oAuthClient;
       }
     }
 

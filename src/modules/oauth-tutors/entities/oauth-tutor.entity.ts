@@ -21,7 +21,6 @@ export class OAuthTutor extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   hashed_oauth_secret: string;
 
-
   @JoinColumn({ name: 'sector_id', referencedColumnName: 'id' })
   @ManyToOne(() => Sector, (sector) => sector.tutors, { nullable: false } )
   sector_type: Sector;

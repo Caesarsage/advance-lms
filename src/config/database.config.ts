@@ -15,5 +15,6 @@ export const databaseConfig: DataSourceOptions = {
   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
   migrationsTableName: 'database_migrations_log',
   migrationsRun: true,
-  synchronize: false
+  synchronize: false,
+  logging: true,
 }

@@ -14,6 +14,7 @@ const logger = new Logger();
 const iv = Buffer.from(process.env.ENC_IV_HEX || '', 'hex');
 const salt = process.env.ENC_SALT || '';
 
+export const STUDENT_CLIENT_ID = 'ecbc9048401d48a79b7ad280de0ee339'
 
 export const hashString = async (
   text: string | null | undefined,
